@@ -7,6 +7,8 @@ import css from 'components/App/App.styled';
 
 const { Container, Title, Subtitle } = css;
 
+const LOCALE_STORAGE_KEY = 'contactsList';
+
 class App extends Component {
   static defaultProps = {
     initialValue: '',
@@ -17,6 +19,36 @@ class App extends Component {
   state = {
     contacts: [],
     filter: this.props.initialValue,
+  };
+
+  componentDidMount() {
+    this.getContactsFromLocaleStorage();
+  }
+
+  componentDidUpdate(_, prevState) {
+    this.saveContactsToLocaleStorage(prevState);
+  }
+
+  getContactsFromLocaleStorage = () => {
+    const savedContacts = localStorage.getItem(LOCALE_STORAGE_KEY);
+
+    if (savedContacts) {
+      const parsedContacts = JSON.parse(savedContacts);
+
+      this.setState({ contacts: parsedContacts });
+    }
+  };
+
+  saveContactsToLocaleStorage = (prevState) => {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      const savedContacts = JSON.stringify(contacts);
+      localStorage.setItem(LOCALE_STORAGE_KEY, savedContacts);
+
+      if (!contacts.length) {
+        localStorage.removeItem(LOCALE_STORAGE_KEY);
+      }
+    }
   };
 
   addContact = (contact) => {
