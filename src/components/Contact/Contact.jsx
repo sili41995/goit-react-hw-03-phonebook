@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Item } from './Contact.styled';
 
 const Contact = ({ name, number, handleDelBtnClick }) => (
@@ -10,5 +11,11 @@ const Contact = ({ name, number, handleDelBtnClick }) => (
     </button>
   </Item>
 );
+
+Contact.propTypes = {
+  name: PropTypes.string.isRequired,
+  number: PropTypes.string.isRequired,
+  handleDelBtnClick: PropTypes.func.isRequired,
+};
 
 export default Contact;

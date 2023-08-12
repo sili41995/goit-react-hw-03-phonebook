@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Formik, Form } from 'formik';
 import { validateName, validateNumber } from 'utils/validateFields';
@@ -45,5 +46,7 @@ const ContactForm = ({ handleFormSubmit }) => {
     </Container>
   );
 };
+
+ContactForm.propTypes = { handleFormSubmit: PropTypes.func.isRequired };
 
 export default ContactForm;
