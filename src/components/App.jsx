@@ -4,9 +4,25 @@ import ContactForm from 'components/ContactForm';
 import Filter from 'components/Filter';
 import ContactList from 'components/ContactList';
 import Section from 'components/Section';
+import loadContacts from 'utils/loadContacts';
+import LS_KEY from 'constants/local-storage-key';
+import saveContacts from 'utils/saveContacts';
 
 class App extends Component {
   state = { contacts: [], filter: '' };
+
+  componentDidMount() {
+    const contacts = loadContacts(LS_KEY);
+    if (!contacts?.length) return;
+    this.setState({ contacts });
+  }
+
+  componentDidUpdate(_, { contacts }) {
+    const isSaveContacts = contacts.length !== this.state.contacts;
+    if (isSaveContacts) {
+      saveContacts(LS_KEY, this.state.contacts);
+    }
+  }
 
   handleFormSubmit = (values, { resetForm }) => {
     const isContact = this.state.contacts.some(
