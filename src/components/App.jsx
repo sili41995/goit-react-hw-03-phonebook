@@ -8,6 +8,7 @@ import Section from 'components/Section';
 import loadContacts from 'utils/loadContacts';
 import LS_KEY from 'constants/local-storage-key';
 import saveContacts from 'utils/saveContacts';
+import filteredContacts from 'utils/filteredContacts';
 
 class App extends Component {
   state = { contacts: [], filter: '' };
@@ -52,6 +53,7 @@ class App extends Component {
 
   render() {
     const { contacts, filter } = this.state;
+    const visibleContacts = filteredContacts(filter, contacts);
 
     return (
       <Section>
@@ -63,8 +65,7 @@ class App extends Component {
           handleFilterChange={this.handleFilterChange}
         />
         <ContactList
-          contacts={contacts}
-          filter={filter}
+          contacts={visibleContacts}
           handleDelBtnClick={this.handleDelBtnClick}
         />
       </Section>
